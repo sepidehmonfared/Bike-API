@@ -62,11 +62,12 @@ Abstract class ApiController {
     /**
      * @param Request $request
      * @param RequestValidatorInterface $requestValidator
+     * @return array
      *
      * @author Sepideh Monfared <monfared.sepideh@gmail.com>
      */
     public function validate(Request $request, RequestValidatorInterface $requestValidator) {
 
-        var_dump($requestValidator::rules());die;
+        return $requestValidator::rules();
     }
 }

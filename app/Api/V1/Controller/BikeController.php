@@ -46,6 +46,3 @@ class BikeController extends ApiController
 
 
 }
-
-//validator
-//unittest
