@@ -6,20 +6,16 @@
  * Time: 16:03
  */
 
-//
-//namespace App\Entity;
-//
-//
-///**
-// * @Entity
-// * @Table(name="report")
-// */
-//class Report
-//{
-//
-//    private $type;
-//
-//    private $target;
-//
-//
-//}
+
+namespace App\Entity;
+
+
+/**
+ * @Entity
+ * @Table(name="report")
+ */
+class Report
+{
+    
+
+}
