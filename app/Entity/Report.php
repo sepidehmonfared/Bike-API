@@ -16,6 +16,6 @@ namespace App\Entity;
  */
 class Report
 {
-    
+
 
 }

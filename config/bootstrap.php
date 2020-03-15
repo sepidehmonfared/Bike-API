@@ -28,7 +28,7 @@ $dbParams = array(
 $config = \Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
 $em     = \Doctrine\ORM\EntityManager::create($dbParams, $config);
 
-$request  = Symfony\Component\HttpFoundation\Request::createFromGlobals();
+$request  = \App\Handlers\CustomRequest::createFromGlobals();
 $response = \Symfony\Component\HttpFoundation\Response::create();
 
 $app = new \App\Core();
