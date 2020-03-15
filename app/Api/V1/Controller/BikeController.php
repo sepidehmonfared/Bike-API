@@ -3,7 +3,9 @@
 namespace App\Api\V1\Controller;
 
 use App\Api\ApiController;
-use Symfony\Component\HttpFoundation\Request;
+use App\Handlers\CustomRequest;
+use App\Validations\CreateBikeValidator;
+use App\Validations\SearchBikeValidator;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -14,13 +16,14 @@ class BikeController extends ApiController
 {
 
     /**
-     * @param Request $request
+     * @param CustomRequest $request
      * @param array $params
      * @return Response
      *
      * @author Sepideh Monfared <monfared.sepideh@gmail.com>
      */
-    public function getBike(Request $request, array $params) {
+
+    public function getBike(CustomRequest $request, array $params) {
 
         $id = $params['id'];
 
@@ -31,18 +34,48 @@ class BikeController extends ApiController
         return  new Response($jsonContent);
     }
 
-    public function postBike(Request $request, array $params) {
-
-
-        return  new Response('postBike ');
-
-    }
-
-    public function findBike(Request $request, array $params)
+    /**
+     * @param CustomRequest $request
+     * @param array $params
+     * @return Response
+     *
+     * @author Sepideh Monfared <monfared.sepideh@gmail.com>
+     */
+    public function findBike(CustomRequest $request, array $params)
     {
-        $this->service->search();
-        return  new Response('findBike ');
+        $request->validate(new SearchBikeValidator());
+
+        $input_data = $request->query->all();
+
+        $data = $this->service->search($input_data);
+
+        $jsonContent = $this->serialize($data);
+
+        return  new Response(
+            $jsonContent,
+            200,
+            ['Content-Type' => 'application/json']
+        );
     }
+
+    /**
+     * @param CustomRequest $request
+     * @param array $params
+     * @return Response
+     *
+     * @author Sepideh Monfared <monfared.sepideh@gmail.com>
+     */
+    public function postBike(CustomRequest $request, array $params) {
+
+        $request->validate(new CreateBikeValidator());
+
+        $request->request->get();
+        $this->service->create(
+        );
+
+        return  new Response('postBike');
+    }
+
 
 
 }

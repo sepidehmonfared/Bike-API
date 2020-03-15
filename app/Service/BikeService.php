@@ -23,20 +23,30 @@ class BikeService extends _Service {
 
     public function init()
     {
-        $this->repository = $this->entityManager->getRepository(Bike::class);
+        $this->repository = $this->entityManager
+                                 ->getRepository(Bike::class);
     }
 
 
+    /**
+     * @param int $id
+     * @return mixed
+     */
     public function one(int $id) {
 
         //TODO check is_null bike and generate 404 statusCode
-        return $this->repository->findOneById($id);
+        return $this->repository->one($id);
     }
 
 
-    public function Search()
+    /**
+     * @param array $filters
+     * @return mixed
+     */
+    public function Search(array $filters = [])
     {
+        $data = $this->repository->search($filters);
 
-
+        return $data;
     }
 }

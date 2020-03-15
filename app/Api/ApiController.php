@@ -9,11 +9,10 @@
 namespace App\Api;
 
 use App\Service\_Service;
-use App\Validations\RequestValidatorInterface;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 
 /**
  * Class ApiController
@@ -41,8 +40,7 @@ Abstract class ApiController {
 
             $encoders         = [new JsonEncoder()];
             $normalizers      = [new ObjectNormalizer()];
-            $this->serializer = new Serializer($normalizers, $encoders);
-
+            $this->serializer =  new Serializer($normalizers, $encoders);
     }
 
 
@@ -59,15 +57,5 @@ Abstract class ApiController {
     }
 
 
-    /**
-     * @param Request $request
-     * @param RequestValidatorInterface $requestValidator
-     * @return array
-     *
-     * @author Sepideh Monfared <monfared.sepideh@gmail.com>
-     */
-    public function validate(Request $request, RequestValidatorInterface $requestValidator) {
 
-        return $requestValidator::rules();
-    }
 }

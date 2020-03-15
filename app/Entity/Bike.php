@@ -9,7 +9,7 @@ namespace App\Entity;
 
 
 /**
- * @Entity
+ * @Entity(repositoryClass="App\Repository\BikeRepository")
  * @Table(name="bike")
  */
 class Bike {
