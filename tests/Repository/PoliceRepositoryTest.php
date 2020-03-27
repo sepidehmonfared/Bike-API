@@ -91,6 +91,25 @@ class PoliceRepositoryTest extends TestCase
         }
     }
 
+    /**
+     * @test
+     * @param int|null $except_id
+     *
+     * @dataProvider freePoliceDataProvider
+     */
+    public function testGetFreePolice(int $except_id = null)
+    {
+        $police = $this->repository->getFreePolice($except_id);
+
+        if($police) {
+            $this->assertInstanceOf('App\Entity\Police', $police);
+            $this->assertEquals('free', $police->getStatus());
+            $this->assertNotEquals($except_id, $police->getId());
+        }
+
+        $this->assertNull($police);
+    }
+
     public static function searchDataProvider() {
 
         return [
@@ -98,5 +117,21 @@ class PoliceRepositoryTest extends TestCase
             [['status' => 'free','page_size' => 1]],
             [['nationalCode' => '0013762087', 'status' => 'free']]
         ];
+    }
+
+    public static function freePoliceDataProvider()
+    {
+        return [
+            ['except_id' => 17],
+            []
+        ];
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->entityManager->close();
+        $this->entityManager = null;
     }
 }

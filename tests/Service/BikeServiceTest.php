@@ -160,4 +160,13 @@ class BikeServiceTest extends TestCase
             [['licenseNumber' => '124-674-78965-3443', 'color' => 'red']]
         ];
     }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->entityManager->close();
+        $this->entityManager = null;
+    }
+
 }

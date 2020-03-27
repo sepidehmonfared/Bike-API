@@ -44,8 +44,8 @@ class PoliceService extends _Service
      */
     public function create(string $national_code, string $status = 'free') {
 
-        $this->em->getConnection()->beginTransaction();
         $reportRepository = $this->em->getRepository(Report::class);
+        $this->em->getConnection()->beginTransaction();
 
         try {
             $police = new Police();
@@ -99,13 +99,18 @@ class PoliceService extends _Service
 
             $this->em->remove($police);
             $this->em->flush();
-            
+
             $this->em->getConnection()->commit();
 
         } catch (Exception $e) {
             $this->em->getConnection()->rollBack();
             return $this->notify('error occurred', 409);
         }
+
+        return $this->notify(
+            'police '.$id.' deleted successfully.',
+            200
+        );
 
     }
 
