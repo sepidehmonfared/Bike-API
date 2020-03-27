@@ -6,31 +6,34 @@
  * Time: 16:59
  */
 
-namespace App\Validations;
+namespace App\Validations\Police;
 
+use App\Validations\RequestValidatorInterface;
+use Symfony\Component\Validator\Constraints\Choice;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\Type;
 
 /**
  *
- * Class CreateBikeValidator
+ * Class CreatePoliceValidator
  * @package App\Validations
  *
  * @author Sepideh Monfared <monfared.sepideh@gmail.com>
  */
-class SearchBikeValidator implements RequestValidatorInterface
+class CreatePoliceValidator implements RequestValidatorInterface
 {
     public static function rules(): array
     {
         // TODO: Implement rules() method.
         return [
-            'licenseNumber' => [
-                new Length(['min' => 5])
+            'status' => [
+                new Choice(['free','busy'])
             ],
-            'color' => [
-                new Length(['max' => 10]),
+            'national_code' => [
+                new NotBlank(),
+                new Length(['min' => 5,'max' => 10]),
+                new Type(['type' => 'integer'])
             ]
         ];
     }

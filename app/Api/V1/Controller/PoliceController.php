@@ -5,15 +5,15 @@ namespace App\Api\V1\Controller;
 
 use App\Api\ApiController;
 use App\Handlers\CustomRequest;
-use App\Validations\CreateBikeValidator;
-use App\Validations\SearchBikeValidator;
+use App\Validations\Police\CreatePoliceValidator;
+use App\Validations\Police\SearchPoliceValidator;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class BikeController
  * @package App\Api\V1\Controller
  */
-class BikeController extends ApiController
+class PoliceController extends ApiController
 {
 
     /**
@@ -24,7 +24,7 @@ class BikeController extends ApiController
      * @author Sepideh Monfared <monfared.sepideh@gmail.com>
      */
 
-    public function getBike(CustomRequest $request, array $params) {
+    public function getPolice(CustomRequest $request, array $params) {
 
         $id = $params['id'];
 
@@ -47,9 +47,9 @@ class BikeController extends ApiController
      *
      * @author Sepideh Monfared <monfared.sepideh@gmail.com>
      */
-    public function findBike(CustomRequest $request, array $params)
+    public function findPolice(CustomRequest $request, array $params)
     {
-        $request->validate(new SearchBikeValidator());
+        $request->validate(new SearchPoliceValidator());
 
         $input_data = $request->query->all();
 
@@ -72,21 +72,42 @@ class BikeController extends ApiController
      *
      * @author Sepideh Monfared <monfared.sepideh@gmail.com>
      */
-    public function postBike(CustomRequest $request, array $params) {
+    public function postPolice(CustomRequest $request, array $params) {
 
-        $request->validate(new CreateBikeValidator());
+        $request->validate(new CreatePoliceValidator());
 
         $input_data = $request->request->all();
 
-        $bike = $this->service->create(
-            $input_data['license_number'],
-            $input_data['color']
+        $police = $this->service->create(
+            $input_data['national_code'],
+            $input_data['status']
         );
 
-        $jsonContent = $this->serialize($bike);
+        $jsonContent = $this->serialize($police);
 
         return  new Response(
             $jsonContent,
+            200,
+            ['Content-Type' => 'application/json']
+        );
+    }
+
+
+    /**
+     * @param CustomRequest $request
+     * @param array $params
+     * @return Response
+     *
+     * @author Sepideh Monfared <monfared.sepideh@gmail.com>
+     */
+    public function deletePolice(CustomRequest $request, array $params) {
+
+        $id   = $params['id'];
+
+        $data = $this->service->delete($id);
+
+        return new Response(
+            $data,
             200,
             ['Content-Type' => 'application/json']
         );

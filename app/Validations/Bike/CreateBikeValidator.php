@@ -6,14 +6,15 @@
  * Time: 16:59
  */
 
-namespace App\Validations;
+namespace App\Validations\Bike;
 
+use App\Validations\RequestValidatorInterface;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  *
- * Class CreateBikeValidator
+ * Class CreatePoliceValidator
  * @package App\Validations
  *
  * @author Sepideh Monfared <monfared.sepideh@gmail.com>
@@ -25,10 +26,13 @@ class CreateBikeValidator implements RequestValidatorInterface
         // TODO: Implement rules() method.
         return [
             'color' => [
-                new Length(['min' => 10]),
+                new Length(['max' => 10]),
                 new NotBlank(),
             ],
-            'licenseNumber' => []
+            'license_number' => [
+                new Length(['min' => 12]),
+                new NotBlank()
+            ]
         ];
     }
 }
