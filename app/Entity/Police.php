@@ -10,27 +10,35 @@ namespace App\Entity;
 
 
 /**
- * @Entity
+ * @Entity(repositoryClass="App\Repository\PoliceRepository")
  * @Table(name="police")
  */
-class Police extends Person {
+class Police extends Person
+{
 
-    private $personalCode;
+    public function __construct()
+    {
+        $this->setStatus('free');
+    }
+
+    /** @Column(type="string", columnDefinition="ENUM('busy', 'free')") */
+        private $status;
+
 
     /**
      * @return mixed
      */
-    public function getPersonalCode()
+    public function getStatus()
     {
-        return $this->personalCode;
+        return $this->status;
     }
 
     /**
-     * @param mixed $personalCode
+     * @param mixed $status
      */
-    public function setPersonalCode($personalCode)
+    public function setStatus($status): void
     {
-        $this->personalCode = $personalCode;
+        $this->status = $status;
     }
 
 

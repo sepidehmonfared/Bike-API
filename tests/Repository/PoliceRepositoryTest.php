@@ -8,12 +8,13 @@
 namespace Tests\Service;
 
 use App\Entity\Bike;
+use App\Entity\Police;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Dotenv\Dotenv;
 
-class BikeRepositoryTest extends TestCase
+class PoliceRepositoryTest extends TestCase
 {
 
     private $entityManager;
@@ -41,7 +42,7 @@ class BikeRepositoryTest extends TestCase
         $config = Setup::createAnnotationMetadataConfiguration($paths);
 
         $this->entityManager = EntityManager::create($dbParams, $config);
-        $this->repository = $this->entityManager->getRepository(Bike::class);
+        $this->repository = $this->entityManager->getRepository(Police::class);
 
     }
 
@@ -63,7 +64,7 @@ class BikeRepositoryTest extends TestCase
         $bikes = $result['data'];
         $this->assertIsArray($bikes);
         $this->assertContainsOnlyInstancesOf(
-            'App\Entity\Bike',
+            'App\Entity\Police',
             $bikes
         );
 
@@ -94,8 +95,8 @@ class BikeRepositoryTest extends TestCase
 
         return [
             [['id' => 2]],
-            [['color' => 'red','page_size' => 1]],
-            [['licenseNumber' => '124-674-78965-3443', 'color' => 'red']]
+            [['status' => 'free','page_size' => 1]],
+            [['nationalCode' => '0013762087', 'status' => 'free']]
         ];
     }
 }

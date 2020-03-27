@@ -7,7 +7,7 @@
  */
 
 $app->map(
-    'api/bike/{id}',
+    'api/{entity}/{id}',
     function (\Symfony\Component\HttpFoundation\Request $request,
               array $attributes,
               \Doctrine\ORM\EntityManager $em) {
@@ -18,11 +18,15 @@ $app->map(
             $method = 'find';
         }
 
-        $service    = new \App\Service\BikeService($em);
-        $controller = new \App\Api\V1\Controller\BikeController($em, $service);
+        $entityName = ucfirst($attributes["entity"]);
+        $serviceName = '\App\Service\\'.$entityName.'Service';
+        $controllerName = '\App\Api\V1\Controller\\'.$entityName.'Controller';
+
+        $service    = new $serviceName($em);
+        $controller = new $controllerName($em, $service);
 
         return call_user_func_array(
-            [$controller, $method.'Bike'],
+            [$controller, $method.$entityName],
             ['request' => $request,'params'=>$attributes]
         );
 

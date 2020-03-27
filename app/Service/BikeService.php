@@ -19,23 +19,22 @@ use App\Entity\Bike;
  */
 class BikeService extends _Service {
 
-    private $repository;
 
     public function init()
     {
-        $this->repository = $this->entityManager
-                                 ->getRepository(Bike::class);
+        $this->repository = $this->em->getRepository(Bike::class);
     }
 
 
     /**
-     * @param int $id
+     * @param array $data
      * @return mixed
      */
-    public function one(int $id) {
+    public function oneBy(array $data) {
 
-        //TODO check is_null bike and generate 404 statusCode
-        return $this->repository->one($id);
+       $bike = parent::oneBy($data);
+       //TODO customization data
+       return $bike;
     }
 
 
@@ -43,10 +42,41 @@ class BikeService extends _Service {
      * @param array $filters
      * @return mixed
      */
-    public function Search(array $filters = [])
+    public function search(array $filters = [])
     {
-        $data = $this->repository->search($filters);
-
-        return $data;
+       $data = parent::search($filters);
+        //TODO customization data
+       return $data;
     }
+
+
+    /**
+     * @param string $license_number
+     * @param string $color
+     * @return Bike
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function create(string $license_number, string $color)
+    {
+        $bike_exist = $this->oneBy([
+            'licenseNumber' => $license_number
+        ]);
+
+        if($bike_exist) {
+            throw new \Exception('Bike exist!', 409);
+        }
+
+        $bike = new Bike();
+        $bike->setLicenseNumber($license_number);
+        $bike->setColor($color);
+
+        $this->em->persist($bike);
+        $this->em->flush();
+
+        return $bike;
+    }
+
+
+
 }

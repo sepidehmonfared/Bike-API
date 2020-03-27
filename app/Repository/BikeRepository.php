@@ -22,24 +22,13 @@ class BikeRepository extends EntityRepository
 
 
     /**
-     * @param int $id
-     * @return object|null
-     */
-    public function one(int $id)
-    {
-        return $this->findOneById($id);
-    }
-
-
-    /**
      * @param array $filters
      * @return mixed
      */
     public function search(array $filters = [])
     {
-
-        $page       = $filters['page']      ? (int)$filters['page']      : 0;
-        $page_size  = $filters['page_size'] ? (int)$filters['page_size'] : self::LIMIT_PAGE_SIZE;
+        $page       = isset($filters['page'])      ? (int)$filters['page']      : 0;
+        $page_size  = isset($filters['page_size']) ? (int)$filters['page_size'] : self::LIMIT_PAGE_SIZE;
 
         $qb = $this->createQueryBuilder('bike');
 
@@ -60,9 +49,9 @@ class BikeRepository extends EntityRepository
         }
 
         return [
-            'data'     => $result,
-            'page'     => $page,
-            'pageSize' => $page_size
+            'data'      => $result,
+            'page'      => $page,
+            'page_size' => $page_size
         ];
 
     }
@@ -91,6 +80,19 @@ class BikeRepository extends EntityRepository
 
         $qb->andWhere('bike.licenseNumber = :bikeLicenseNumber');
         $qb->setParameter('bikeLicenseNumber', $licenseNumber);
+
+        return $qb;
+    }
+
+    /**
+     * @param QueryBuilder $qb
+     * @param int $id
+     * @return QueryBuilder
+     */
+    public function SearchQueryPartId(QueryBuilder $qb, int $id) {
+
+        $qb->andWhere('bike.id = :bikeId');
+        $qb->setParameter('bikeId', $id);
 
         return $qb;
     }

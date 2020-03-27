@@ -8,9 +8,8 @@
 
 namespace App\Entity;
 
-
 /**
- * @Entity
+ * @Entity(repositoryClass="App\Repository\PersonRepository")
  * @Table(name="person")
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="role", type="string")
@@ -21,8 +20,11 @@ class Person {
     /** @Id @Column(type="integer") @GeneratedValue */
     protected $id;
 
-    /** @Name @Column(type="string")  */
+    /** @Name @Column(type="string", nullable=true) */
     protected $name;
+
+    /** @Name @Column(type="string", unique=true)  */
+    protected $nationalCode;
 
 
     /**
@@ -42,6 +44,14 @@ class Person {
     }
 
     /**
+     * @return mixed
+     */
+    public function getNationalCode()
+    {
+        return $this->nationalCode;
+    }
+
+    /**
      * @param mixed $id
      */
     public function setId($id)
@@ -55,5 +65,13 @@ class Person {
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @param mixed $nationalCode
+     */
+    public function setNationalCode(string $nationalCode): void
+    {
+        $this->nationalCode = $nationalCode;
     }
 }

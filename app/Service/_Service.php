@@ -14,13 +14,46 @@ use Doctrine\ORM\EntityManager;
 Abstract class _Service
 {
 
-    protected $entityManager;
+    protected $em;
+    protected $repository;
 
     public function __construct(EntityManager $em)
     {
-        $this->entityManager = $em;
+        $this->em = $em;
         $this->init();
     }
 
+    /**
+     * @param array $data
+     * @return mixed
+     */
+    public function oneBy(array $data)
+    {
+        return $this->repository->findOneBy($data);
+    }
+
+
+    /**
+     * @param array $filters
+     * @return mixed
+     */
+    public function search(array $filters = [])
+    {
+        $data = $this->repository->search($filters);
+
+        return $data;
+    }
+
+
+    public function notify(string $message, int $code = 200, array $extraData = []) {
+
+        return json_encode(['detail' => $message, 'status' => $code, 'extraValues' => $extraData]);
+    }
+
+
+
+    /**
+     * @return mixed
+     */
     abstract function init();
 }

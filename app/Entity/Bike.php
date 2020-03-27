@@ -12,12 +12,10 @@ namespace App\Entity;
  * @Entity(repositoryClass="App\Repository\BikeRepository")
  * @Table(name="bike")
  */
-class Bike {
+class Bike extends Vehicle
+{
 
-    /** @Id @Column(type="integer") @GeneratedValue */
-    private $id;
-
-    /** @LicenseNumber @Column(type="string")*/
+    /** @LicenseNumber @Column(type="string", unique=true)*/
     private $licenseNumber;
 
     /** @Color @Column(type="string")*/
@@ -29,13 +27,6 @@ class Bike {
      * @JoinColumn(name="person_id", referencedColumnName="id")
      */
     private $owner;
-
-    /**
-     * @return mixed
-     */
-    public function getId() {
-        return $this->id;
-    }
 
     /**
      * @return mixed
