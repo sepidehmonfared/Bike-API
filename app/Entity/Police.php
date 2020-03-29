@@ -12,6 +12,7 @@ namespace App\Entity;
 /**
  * @Entity(repositoryClass="App\Repository\PoliceRepository")
  * @Table(name="police")
+ * @HasLifecycleCallbacks()
  */
 class Police extends Person
 {
@@ -40,6 +41,7 @@ class Police extends Person
     {
         $this->status = $status;
     }
+
 
 
 }

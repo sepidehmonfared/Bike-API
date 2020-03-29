@@ -44,7 +44,12 @@ class PoliceService extends _Service
      */
     public function create(string $national_code, string $status = 'free') {
 
-        $reportRepository = $this->em->getRepository(Report::class);
+
+        $police = $this->oneBy(['nationalCode' => $national_code]);
+        if ($police) {
+            return $police;
+        }
+
         $this->em->getConnection()->beginTransaction();
 
         try {
@@ -53,7 +58,10 @@ class PoliceService extends _Service
             $police->setName('u_'.$national_code);
             $police->setStatus($status);
 
-            $report = $reportRepository->findOneBy(['police' => null]);
+            $report = $this->em
+                ->getRepository(Report::class)
+                ->findOneBy(['police' => null]);
+
             if ($report) {
                 $report->setPolice($police);
                 $this->em->persist($report);
@@ -86,11 +94,13 @@ class PoliceService extends _Service
             return $this->notify('Police not found!', 404);
         }
 
-        $reportRepository = $this->em->getRepository(Report::class);
         $this->em->getConnection()->beginTransaction();
 
         try {
-            $report = $reportRepository->findOneBy(['police' => $police->getId()]);
+            $report =  $this->em
+                ->getRepository(Report::class)
+                ->findOneBy(['police' => $police->getId()]);
+
             if ($report) {
                 $free_police = $this->repository->getFreePolice($id);
                 $report->setPolice($free_police);

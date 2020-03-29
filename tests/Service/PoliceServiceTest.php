@@ -9,8 +9,13 @@
 namespace Tests\Service;
 
 
+use App\Entity\Bike;
+use App\Entity\Police;
+use App\Entity\Report;
+use App\Repository\ReportRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
+use Doctrine\Persistence\ObjectManager;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Dotenv\Dotenv;
 
@@ -46,8 +51,26 @@ class PoliceServiceTest extends TestCase
 
     }
 
-    public function testCreate() {
 
+    /**
+     * @param string $national_code
+     * @param string $status
+     *
+     * @dataProvider createDataProvider
+     */
+    public function testCreate(string $national_code, string $status = 'free') {
+
+
+
+
+    }
+
+    public static function createDataProvider() {
+
+        return [
+            ['national_code' => '0013762087'],
+
+        ];
     }
 
     protected function tearDown(): void

@@ -61,26 +61,26 @@ class PoliceRepositoryTest extends TestCase
         $this->assertArrayHasKey('page', $result);
         $this->assertArrayHasKey('page_size', $result);
 
-        $bikes = $result['data'];
-        $this->assertIsArray($bikes);
+        $polices = $result['data'];
+        $this->assertIsArray($polices);
         $this->assertContainsOnlyInstancesOf(
             'App\Entity\Police',
-            $bikes
+            $polices
         );
 
 
         if (isset($filters['page_size'])) {
 
-            $this->assertLessThanOrEqual($filters['page_size'], sizeof($bikes));
+            $this->assertLessThanOrEqual($filters['page_size'], sizeof($polices));
             $this->assertEquals($filters['page_size'], $result['page_size']);
             unset($filters['page_size']);
         }
 
-        foreach ($bikes as $key => $bike) {
+        foreach ($polices as $key => $police) {
             foreach ($filters as $property => $value) {
 
                 $func_name  = 'get'.ucfirst($property);
-                $real_value = $bike->$func_name();
+                $real_value = $police->$func_name();
 
                 $this->assertEquals(
                     $value,
