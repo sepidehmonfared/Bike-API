@@ -61,26 +61,26 @@ class PoliceRepositoryTest extends TestCase
         $this->assertArrayHasKey('page', $result);
         $this->assertArrayHasKey('page_size', $result);
 
-        $bikes = $result['data'];
-        $this->assertIsArray($bikes);
+        $polices = $result['data'];
+        $this->assertIsArray($polices);
         $this->assertContainsOnlyInstancesOf(
             'App\Entity\Police',
-            $bikes
+            $polices
         );
 
 
         if (isset($filters['page_size'])) {
 
-            $this->assertLessThanOrEqual($filters['page_size'], sizeof($bikes));
+            $this->assertLessThanOrEqual($filters['page_size'], sizeof($polices));
             $this->assertEquals($filters['page_size'], $result['page_size']);
             unset($filters['page_size']);
         }
 
-        foreach ($bikes as $key => $bike) {
+        foreach ($polices as $key => $police) {
             foreach ($filters as $property => $value) {
 
                 $func_name  = 'get'.ucfirst($property);
-                $real_value = $bike->$func_name();
+                $real_value = $police->$func_name();
 
                 $this->assertEquals(
                     $value,
@@ -91,6 +91,25 @@ class PoliceRepositoryTest extends TestCase
         }
     }
 
+    /**
+     * @test
+     * @param int|null $except_id
+     *
+     * @dataProvider freePoliceDataProvider
+     */
+    public function testGetFreePolice(int $except_id = null)
+    {
+        $police = $this->repository->getFreePolice($except_id);
+
+        if($police) {
+            $this->assertInstanceOf('App\Entity\Police', $police);
+            $this->assertEquals('free', $police->getStatus());
+            $this->assertNotEquals($except_id, $police->getId());
+        }
+
+        $this->assertNull($police);
+    }
+
     public static function searchDataProvider() {
 
         return [
@@ -98,5 +117,21 @@ class PoliceRepositoryTest extends TestCase
             [['status' => 'free','page_size' => 1]],
             [['nationalCode' => '0013762087', 'status' => 'free']]
         ];
+    }
+
+    public static function freePoliceDataProvider()
+    {
+        return [
+            ['except_id' => 17],
+            []
+        ];
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->entityManager->close();
+        $this->entityManager = null;
     }
 }

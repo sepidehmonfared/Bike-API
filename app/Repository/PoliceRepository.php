@@ -100,22 +100,25 @@ class PoliceRepository extends EntityRepository
 
 
     /**
-     * @param int $id
-     * @param string $status
+     * @param int $except_id
      * @return mixed
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function getFreePolice(int $id, string $status = 'free') {
+    public function getFreePolice(int $except_id = null) {
 
         $qb = $this->createQueryBuilder('police');
-        $qb->where('police.id != :identifier')
-            ->andWhere('police.status = :status')
-            ->setParameters(array(
-                    'identifier' => $id,
-                    'status'     => $status
-                )
-            )
+        $qb->where('police.status = :status');
+        $params = ['status' => 'free'];
+
+        if (!is_null($except_id)) {
+            $qb->andWhere('police.id != :identifier');
+            $params['identifier'] =  $except_id;
+        }
+
+
+        $qb->setParameters($params)
             ->setMaxResults(1);
+
         return $qb->getQuery()->getOneOrNullResult();
     }
 
