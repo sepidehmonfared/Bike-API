@@ -28,9 +28,10 @@ class Report
     private $vehicle;
 
 
+    // ...
     /**
-     * Many bikes have one user. This is the owning side.
-     * @OneToOne(targetEntity="Police")
+     * Many features have one product. This is the owning side.
+     * @ManyToOne(targetEntity="Police", inversedBy="reports")
      * @JoinColumn(name="police_id", referencedColumnName="id")
      */
     private $police;

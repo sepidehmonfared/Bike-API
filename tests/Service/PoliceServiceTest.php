@@ -53,6 +53,20 @@ class PoliceServiceTest extends TestCase
 
 
     /**
+     * @test
+     * @dataProvider createDataProvider
+     */
+    public function testCreateDuplicate() {
+
+        $police = $this->service->oneBy([]);
+        $result = $this->service->create($police->getNationalCode());
+
+        $this->assertInstanceOf('App\Entity\Police', $police);
+        $this->assertEquals($result, $police);
+    }
+
+
+    /**
      * @param string $national_code
      * @param string $status
      *
@@ -60,8 +74,12 @@ class PoliceServiceTest extends TestCase
      */
     public function testCreate(string $national_code, string $status = 'free') {
 
+        $police = $this->service->create($national_code, $status);
 
 
+    }
+
+    public function testDelete() {
 
     }
 

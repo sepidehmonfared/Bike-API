@@ -6,8 +6,9 @@ namespace App\Api\V1\Controller;
 use App\Api\ApiController;
 use App\Handlers\CustomRequest;
 use App\Validations\CreateBikeValidator;
+use App\Validations\Police\CreatePoliceValidator;
 use App\Validations\SearchBikeValidator;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Class BikeController
@@ -19,12 +20,12 @@ class BikeController extends ApiController
     /**
      * @param CustomRequest $request
      * @param array $params
-     * @return Response
+     * @return JsonResponse
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      *
      * @author Sepideh Monfared <monfared.sepideh@gmail.com>
      */
-
-    public function getBike(CustomRequest $request, array $params) {
+    public function getAction(CustomRequest $request, array $params) {
 
         $id = $params['id'];
 
@@ -32,10 +33,9 @@ class BikeController extends ApiController
 
         $jsonContent = $this->serialize($bike);
 
-        return  new Response(
+        return  new JsonResponse(
             $jsonContent,
-            200,
-            ['Content-Type' => 'application/json']
+            200
         );
     }
 
@@ -43,11 +43,12 @@ class BikeController extends ApiController
     /**
      * @param CustomRequest $request
      * @param array $params
-     * @return Response
+     * @return JsonResponse
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      *
      * @author Sepideh Monfared <monfared.sepideh@gmail.com>
      */
-    public function findBike(CustomRequest $request, array $params)
+    public function findAction(CustomRequest $request, array $params)
     {
         $request->validate(new SearchBikeValidator());
 
@@ -57,10 +58,9 @@ class BikeController extends ApiController
 
         $jsonContent = $this->serialize($data);
 
-        return  new Response(
+        return  new JsonResponse(
             $jsonContent,
-            200,
-            ['Content-Type' => 'application/json']
+            200
         );
     }
 
@@ -68,13 +68,14 @@ class BikeController extends ApiController
     /**
      * @param CustomRequest $request
      * @param array $params
-     * @return Response
+     * @return JsonResponse
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      *
      * @author Sepideh Monfared <monfared.sepideh@gmail.com>
      */
-    public function postBike(CustomRequest $request, array $params) {
+    public function postAction(CustomRequest $request, array $params) {
 
-        $request->validate(new CreateBikeValidator());
+        $request->validate(new CreatePoliceValidator());
 
         $input_data = $request->request->all();
 
@@ -85,10 +86,9 @@ class BikeController extends ApiController
 
         $jsonContent = $this->serialize($bike);
 
-        return  new Response(
+        return  new JsonResponse(
             $jsonContent,
-            200,
-            ['Content-Type' => 'application/json']
+            200
         );
     }
 

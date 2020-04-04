@@ -46,13 +46,13 @@ Abstract class ApiController {
 
     /**
      * @param $data
-     * @return string
-     *
-     * @author Sepideh Monfared <monfared.sepideh@gmail.com>
+     * @param array $context
+     * @return array|\ArrayObject|bool|float|int|mixed|string|null
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-    public function serialize( $data) {
+    public function serialize( $data, array $context = []) {
 
-        return $this->serializer->serialize($data,'json');
+        return $this->serializer->normalize($data, 'json', $context);
 
     }
 

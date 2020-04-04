@@ -7,7 +7,7 @@ use App\Api\ApiController;
 use App\Handlers\CustomRequest;
 use App\Validations\Police\CreatePoliceValidator;
 use App\Validations\Police\SearchPoliceValidator;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Class BikeController
@@ -19,12 +19,14 @@ class PoliceController extends ApiController
     /**
      * @param CustomRequest $request
      * @param array $params
-     * @return Response
+     * @return JsonResponse
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      *
      * @author Sepideh Monfared <monfared.sepideh@gmail.com>
+
      */
 
-    public function getPolice(CustomRequest $request, array $params) {
+    public function getAction(CustomRequest $request, array $params) {
 
         $id = $params['id'];
 
@@ -32,10 +34,9 @@ class PoliceController extends ApiController
 
         $jsonContent = $this->serialize($bike);
 
-        return  new Response(
+        return  new JsonResponse(
             $jsonContent,
-            200,
-            ['Content-Type' => 'application/json']
+            200
         );
     }
 
@@ -43,11 +44,12 @@ class PoliceController extends ApiController
     /**
      * @param CustomRequest $request
      * @param array $params
-     * @return Response
+     * @return JsonResponse
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      *
      * @author Sepideh Monfared <monfared.sepideh@gmail.com>
      */
-    public function findPolice(CustomRequest $request, array $params)
+    public function findAction(CustomRequest $request, array $params)
     {
         $request->validate(new SearchPoliceValidator());
 
@@ -57,10 +59,9 @@ class PoliceController extends ApiController
 
         $jsonContent = $this->serialize($data);
 
-        return  new Response(
+        return  new JsonResponse(
             $jsonContent,
-            200,
-            ['Content-Type' => 'application/json']
+            200
         );
     }
 
@@ -68,11 +69,12 @@ class PoliceController extends ApiController
     /**
      * @param CustomRequest $request
      * @param array $params
-     * @return Response
+     * @return JsonResponse
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      *
      * @author Sepideh Monfared <monfared.sepideh@gmail.com>
      */
-    public function postPolice(CustomRequest $request, array $params) {
+    public function postAction(CustomRequest $request, array $params) {
 
         $request->validate(new CreatePoliceValidator());
 
@@ -85,10 +87,9 @@ class PoliceController extends ApiController
 
         $jsonContent = $this->serialize($police);
 
-        return  new Response(
+        return  new JsonResponse(
             $jsonContent,
-            200,
-            ['Content-Type' => 'application/json']
+            200
         );
     }
 
@@ -96,20 +97,19 @@ class PoliceController extends ApiController
     /**
      * @param CustomRequest $request
      * @param array $params
-     * @return Response
+     * @return JsonResponse
      *
      * @author Sepideh Monfared <monfared.sepideh@gmail.com>
      */
-    public function deletePolice(CustomRequest $request, array $params) {
+    public function deleteAction(CustomRequest $request, array $params) {
 
         $id   = $params['id'];
 
         $data = $this->service->delete($id);
 
-        return new Response(
+        return new JsonResponse(
             $data,
-            200,
-            ['Content-Type' => 'application/json']
+            200
         );
     }
 

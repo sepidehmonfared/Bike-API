@@ -105,9 +105,9 @@ class PoliceRepositoryTest extends TestCase
             $this->assertInstanceOf('App\Entity\Police', $police);
             $this->assertEquals('free', $police->getStatus());
             $this->assertNotEquals($except_id, $police->getId());
+        }else{
+            $this->assertNull($police);
         }
-
-        $this->assertNull($police);
     }
 
     public static function searchDataProvider() {

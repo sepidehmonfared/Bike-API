@@ -17,13 +17,23 @@ namespace App\Entity;
 class Police extends Person
 {
 
+    /**
+     * Police constructor.
+     */
     public function __construct()
     {
         $this->setStatus('free');
     }
 
+
     /** @Column(type="string", columnDefinition="ENUM('busy', 'free')") */
-        private $status;
+    private $status;
+
+    /**
+     * One product has many features. This is the inverse side.
+     * @OneToMany(targetEntity="Report", mappedBy="police")
+     */
+    private $reports;
 
 
     /**
@@ -40,6 +50,14 @@ class Police extends Person
     public function setStatus($status): void
     {
         $this->status = $status;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getReports()
+    {
+        return $this->reports;
     }
 
 

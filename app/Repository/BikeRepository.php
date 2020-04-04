@@ -60,6 +60,7 @@ class BikeRepository extends EntityRepository
     /**
      * @param QueryBuilder $qb
      * @param string $color
+     *
      * @return QueryBuilder
      */
     public function SearchQueryPartColor(QueryBuilder $qb, string $color) {
@@ -74,6 +75,7 @@ class BikeRepository extends EntityRepository
     /**
      * @param QueryBuilder $qb
      * @param string $licenseNumber
+     *
      * @return QueryBuilder
      */
     public function SearchQueryPartLicenseNumber(QueryBuilder $qb, string $licenseNumber) {
@@ -87,6 +89,7 @@ class BikeRepository extends EntityRepository
     /**
      * @param QueryBuilder $qb
      * @param int $id
+     *
      * @return QueryBuilder
      */
     public function SearchQueryPartId(QueryBuilder $qb, int $id) {
