@@ -47,7 +47,7 @@ Abstract class _Service
 
     public function notify(string $message, int $code = 200, array $extraData = []) {
 
-        return json_encode(['detail' => $message, 'status' => $code, 'extraValues' => $extraData]);
+        return ['detail' => $message, 'status' => $code, 'extraValues' => $extraData];
     }
 
 

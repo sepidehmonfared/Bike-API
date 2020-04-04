@@ -17,6 +17,9 @@ $app->map(
         if(!$attributes['id'] && $method == 'get') {
             $method = 'find';
         }
+        if($method == 'put') {
+            $method = 'update';
+        }
 
         $entityName = ucfirst($attributes["entity"]);
         $serviceName = '\App\Service\\'.$entityName.'Service';
@@ -26,13 +29,14 @@ $app->map(
         $controller = new $controllerName($em, $service);
 
         return call_user_func_array(
-            [$controller, $method.$entityName],
+            [$controller, $method.'Action'],
             ['request' => $request,'params'=>$attributes]
         );
 
     },
     ['id' => 0],
-    ['id'=>'\d+'])
-;
+    ['id'=>'\d+']
+);
+
 
 

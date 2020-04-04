@@ -64,7 +64,7 @@ class BikeService extends _Service {
         ]);
 
         if($bike_exist) {
-            throw new \Exception('Bike exist!', 409);
+            return $this->notify('Bike exist!', 409);
         }
 
         $bike = new Bike();

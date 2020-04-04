@@ -65,6 +65,7 @@ class PoliceService extends _Service
             if ($report) {
                 $report->setPolice($police);
                 $this->em->persist($report);
+                $this->em->flush();
             }
 
             $this->em->persist($police);
@@ -82,7 +83,7 @@ class PoliceService extends _Service
 
     /**
      * @param int $id
-     * @return false|string
+     * @return array
      * @throws \Doctrine\DBAL\ConnectionException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException

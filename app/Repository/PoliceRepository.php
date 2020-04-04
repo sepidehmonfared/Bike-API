@@ -62,6 +62,7 @@ class PoliceRepository extends EntityRepository
     /**
      * @param QueryBuilder $qb
      * @param int $policed_id
+     *
      * @return QueryBuilder
      */
     public function SearchQueryPartId(QueryBuilder $qb, int $policed_id) {

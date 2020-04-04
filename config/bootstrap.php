@@ -26,6 +26,8 @@ $dbParams = array(
 );
 
 $config = \Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
+$config->setProxyDir(PATH_ROOT.'public/cache');
+
 $em     = \Doctrine\ORM\EntityManager::create($dbParams, $config);
 
 $request  = \App\Handlers\CustomRequest::createFromGlobals();
