@@ -1,6 +1,6 @@
 # Bike Api
 
-This sample project developed by my own minimal skeleton thats structed with symfony components, for report bicycle theft to police and assigne officer for each report.
+Bike Api developed by my own minimal skeleton thats structed with symfony components, for report bicycle theft to police and assigne officer for each report.
 Police can add officer.
 Each report after submit assign to free officer.
 Also police can get report from officer and assign to another one.
